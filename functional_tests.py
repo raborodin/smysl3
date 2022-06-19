@@ -1,5 +1,7 @@
-from selenium import webdriver
 import unittest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
 
 class BasicInstallTest(unittest.TestCase):  
 
@@ -18,9 +20,9 @@ class BasicInstallTest(unittest.TestCase):
 
     def test_home_page_header(self):
         # В шапке сайта написно "Алексей Куличевский"
-        browser = self.browser.get('http://127.0.0.1:8000')
-        header = browser.find_elements_by_tag_name('h1')[0]
-        self.assertIn('Сайт Алексея Куличевского', self.browser.title)
+        self.browser.get('http://127.0.0.1:8000')
+        header = self.browser.find_element(By.TAG_NAME, "h1")
+        self.assertIn('Алексей Куличевский', header.text)
 
 if __name__ == '__main__':  
     unittest.main()
