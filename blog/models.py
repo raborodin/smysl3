@@ -9,4 +9,3 @@ class Article(models.Model):
     pubdate = models.DateTimeField()
     # slud #TODO
     # is_published = models.BooleanField() #TODO
-
