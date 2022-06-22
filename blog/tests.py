@@ -1,9 +1,28 @@
 from django.urls import resolve
 from django.test import TestCase
-from blog.views import home_page
+from blog.views import home_page, article_page
 from django.http import HttpRequest
 from blog.models import Article
 from datetime import datetime
+
+
+class ArticlePageTest(TestCase):
+
+    def test_article_page_displays_correct_article(self):
+        Article.objects.create(
+            title='title 1',
+            summary='summary 1',
+            full_text='full_text 1',
+            pubdate=datetime.now(),
+        )
+
+        request = HttpRequest()
+        response = article_page(request)
+        html = response.content.decode('utf8')
+
+        self.assertIn('title 1', html)
+        self.assertNotIn('summary 1', html)
+        self.assertIn('full_text 1', html)
 
 
 class HomePageTest(TestCase):
@@ -27,17 +46,15 @@ class HomePageTest(TestCase):
         html = response.content.decode('utf8')
 
         self.assertIn('title 1', html)
+        self.assertIn('/blog/title-1', html)
         self.assertIn('summary 1', html)
         self.assertNotIn('full_text 1', html)
 
         self.assertIn('title 2', html)
+        self.assertIn('/blog/title-2', html)
         self.assertIn('summary 2', html)
         self.assertNotIn('full_text 2', html)
 
-
-    def test_root_url_resolves_to_home_page_view(self):
-        found = resolve('/')  
-        self.assertEqual(found.func, home_page)
 
     def test_home_page_returns_correct_html(self):
         request = HttpRequest()
