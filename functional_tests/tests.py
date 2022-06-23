@@ -1,9 +1,10 @@
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from django.test import LiveServerTestCase
 
 
-class BasicInstallTest(unittest.TestCase):  
+class BasicInstallTest(LiveServerTestCase):
 
     def setUp(self):  
         self.browser = webdriver.Firefox()
@@ -15,25 +16,25 @@ class BasicInstallTest(unittest.TestCase):
         # В браузере открылся сайт (по адресу: 'http://127.0.0.1:8000')
         # В заголовке сайта прочитали "Сайт Алексея Куличевского"
 
-        self.browser.get('http://127.0.0.1:8000')
+        self.browser.get(self.live_server_url)
         self.assertIn('Сайт Алексея Куличевского', self.browser.title)
 
     def test_home_page_header(self):
         # В шапке сайта написно "Алексей Куличевский"
-        self.browser.get('http://127.0.0.1:8000')
+        self.browser.get(self.live_server_url)
         header = self.browser.find_element(By.TAG_NAME, "h1")
         self.assertIn('Алексей Куличевский', header.text)
 
 
     def test_home_page_blog(self):
         # Под шапкой должен быть расположен блок со статьями
-        self.browser.get('http://127.0.0.1:8000')
+        self.browser.get(self.live_server_url)
         article_list = self.browser.find_element(By.CLASS_NAME, 'article-list')
         self.assertTrue(article_list)
 
     def test_home_page_blog_articles_look_correct(self):
         # У каждой статьи есть заголовок и один абзац с текстом
-        self.browser.get('http://127.0.0.1:8000')
+        self.browser.get(self.live_server_url)
         article_title = self.browser.find_element(By.CLASS_NAME, 'article-title')
         article_summary = self.browser.find_element(By.CLASS_NAME, 'article-summary')
         self.assertTrue(article_title)
@@ -41,7 +42,7 @@ class BasicInstallTest(unittest.TestCase):
 
     def test_home_page_article_title_link_leads_to_article_page(self):
         # Вася кликнул по заголовку и у него открылась страница с полным текстом
-        self.browser.get('http://127.0.0.1:8000')
+        self.browser.get(self.live_server_url)
         article_title = self.browser.find_element(By.CLASS_NAME, 'article-title')
         article_title_text = article_title.text
 
@@ -61,6 +62,7 @@ if __name__ == '__main__':
 
 # self.fail('Finish test!')
 
+# На странице статьи Вася прочитал зоголовок страницы: там был написан заголовк статьи
 
 # Вася попытался открыть несуществующую статью и ему открыласькрасивая страничка "Страница не найдена"
 
