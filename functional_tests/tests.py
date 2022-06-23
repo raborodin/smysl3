@@ -2,12 +2,21 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from django.test import LiveServerTestCase
+from datetime import datetime
+from blog.models import Article
 
 
 class BasicInstallTest(LiveServerTestCase):
 
     def setUp(self):  
         self.browser = webdriver.Firefox()
+        Article.objects.create(
+            title='title 1',
+            summary='summary 1',
+            full_text='full_text 1',
+            pubdate=datetime.now(),
+            slug='ooo-lya-lya',
+        )
 
     def tearDown(self):  
         self.browser.quit()
