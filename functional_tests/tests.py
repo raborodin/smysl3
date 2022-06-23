@@ -57,9 +57,6 @@ class BasicInstallTest(LiveServerTestCase):
         self.assertEqual(article_title_text, article_page_title.text)
 
 
-if __name__ == '__main__':  
-    unittest.main()
-
 # self.fail('Finish test!')
 
 # На странице статьи Вася прочитал зоголовок страницы: там был написан заголовк статьи
