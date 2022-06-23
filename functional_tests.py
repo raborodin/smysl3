@@ -43,16 +43,17 @@ class BasicInstallTest(unittest.TestCase):
         # Вася кликнул по заголовку и у него открылась страница с полным текстом
         self.browser.get('http://127.0.0.1:8000')
         article_title = self.browser.find_element(By.CLASS_NAME, 'article-title')
+        article_title_text = article_title.text
 
         # Находим ссылку в заголовке статьи
-        article_link = self.browser.find_element(By.TAG_NAME, 'a')
+        article_link = article_title.find_element(By.TAG_NAME, 'a')
 
         # Переходим по ссылке
         self.browser.get(article_link.get_attribute('href'))
 
         # Ожидаем, что на открывшейся странице есть нужная статья
-        article_page_title = self.browser.find_element(By.CLASS_NAME, 'article_title')
-        self.assertEqual(article_title.text, article_page_title.text)
+        article_page_title = self.browser.find_element(By.CLASS_NAME, 'article-title')
+        self.assertEqual(article_title_text, article_page_title.text)
 
 
 if __name__ == '__main__':  
@@ -61,6 +62,7 @@ if __name__ == '__main__':
 # self.fail('Finish test!')
 
 
+# Вася попытался открыть несуществующую статью и ему открыласькрасивая страничка "Страница не найдена"
 
 # Прочитал статью, кликнул по тексту "Алексей Кулический" и попал на главную страницу
 

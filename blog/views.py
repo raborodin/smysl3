@@ -9,7 +9,7 @@ def home_page(request):
     return render(request, 'home_page.html', context)
 
 
-def article_page(request):
-    article = Article.objects.get(pk=1)
+def article_page(request, slug):
+    article = Article.objects.get(slug=slug)
     context = {'articles': article}
     return render(request, 'article_page.html', context)
